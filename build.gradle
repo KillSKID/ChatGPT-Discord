@@ -1,0 +1,68 @@
+group 'club.discordgpt.killred'
+version '1.0'
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://m2.dv8tion.net/releases'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: kotlin_version
+        classpath "org.jetbrains.kotlin:kotlin-serialization:1.5.31"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'kotlinx-serialization'
+
+
+repositories {
+    maven {
+        url 'https://m2.dv8tion.net/releases'
+    }
+    mavenCentral()
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = 1.8
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    library
+}
+
+dependencies {
+    library("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version") {
+        exclude module: 'annotations'
+    }
+    library 'com.discord4j:discord4j-core:3.2.3'
+    library 'com.google.code.gson:gson:2.8.9'
+    library 'com.theokanning.openai-gpt3-java:client:0.10.0'
+    library 'com.theokanning.openai-gpt3-java:api:0.10.0'
+    library "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
+
+    implementation configurations.library
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest.attributes(
+            'Manifest-Version': 1.0,
+            'Main-Class': 'club.discordgpt.killred.Main'
+    )
+    from {
+        configurations.library.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
