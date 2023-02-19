@@ -12,7 +12,7 @@ A ChatGPT Discord bot written in Kotlin, made for fun!
  > java -jar ChatGPT-Discord-1.0.jar
  
 1. If you are using this bot for the first time, it will generate a config.json file.
-2. Put your ChatGPT token and Discord token into ```"discordToken":""``` and ```"chatGPTToken":""```
+2. Put your ChatGPT token and Discord token into ```"chatGPTToken":""``` and ```"discordToken":""```
 3. Run it again. You should be good to go now.
 
 ### Feature
