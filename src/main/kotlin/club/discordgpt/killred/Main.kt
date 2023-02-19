@@ -55,7 +55,6 @@ object Main {
                 if (event.commandName == "chatgpt") {
                     val input = event.getOption("message").flatMap { it.value }.map { it.asString() }.get()
 
-                    event.deferReply()
 
                     thread {
                         val builder = StringBuilder("> Asking: **$input**\n")
@@ -63,6 +62,12 @@ object Main {
                         var maxAttempt = 0
 
                         while (true) {
+                            if (maxAttempt == 0) {
+                                event.deferReply()
+                                    .then(Mono.delay(Duration.ofSeconds(2)))
+                                    .then(event.editReply(builder.toString())).subscribe()
+                            }
+
                             runCatching { //if (maxAttempt == 0) channel.type().block()
                                 service.createCompletion(CompletionRequest.builder().model("text-davinci-003")
                                     .temperature(config.temperature)
@@ -80,11 +85,7 @@ object Main {
                                 return@thread
                             }
 
-                            if (maxAttempt == 0) {
-                                event.deferReply()
-                                    .then(Mono.delay(Duration.ofSeconds(1)))
-                                    .then(event.editReply(builder.toString())).subscribe()
-                            } else {
+                            if (maxAttempt != 0) {
                                 event.editReply(InteractionReplyEditSpec.builder().build()
                                     .withContentOrNull(builder.toString())).subscribe()
                             }
