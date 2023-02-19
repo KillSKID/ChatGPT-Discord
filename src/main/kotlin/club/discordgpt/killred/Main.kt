@@ -11,6 +11,7 @@ import discord4j.discordjson.json.ApplicationCommandRequest
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import reactor.core.publisher.Mono
 import java.io.File
 import java.time.Duration
 import kotlin.concurrent.thread
@@ -80,7 +81,9 @@ object Main {
                             }
 
                             if (maxAttempt == 0) {
-                                event.reply(builder.toString()).subscribe()
+                                event.deferReply()
+                                    .then(Mono.delay(Duration.ofSeconds(1)))
+                                    .then(event.editReply(builder.toString())).subscribe()
                             } else {
                                 event.editReply(InteractionReplyEditSpec.builder().build()
                                     .withContentOrNull(builder.toString())).subscribe()
