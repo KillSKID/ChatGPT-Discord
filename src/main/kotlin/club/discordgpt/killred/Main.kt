@@ -57,7 +57,7 @@ object Main {
                     event.deferReply()
 
                     thread {
-                        val builder = StringBuilder("> Asking: **$input**")
+                        val builder = StringBuilder("> Asking: **$input**\n")
                         var lastReasons = "length"
                         var maxAttempt = 0
 
