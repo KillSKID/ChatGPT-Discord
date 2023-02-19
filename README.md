@@ -6,7 +6,7 @@ A ChatGPT Discord bot written in Kotlin, made for fun!
   ![gif](https://i.imgur.com/T34ZsRz.gif)
 
 - In more complicated request
-  ![gif](https://i.imgur.com/LdbpBsR.gif)
+  ![gif](https://i.imgur.com/TSNL7Ys.gif)
 
 ### Usage
  > java -jar ChatGPT-Discord-1.0.jar
