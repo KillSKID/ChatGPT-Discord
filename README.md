@@ -3,7 +3,7 @@ A ChatGPT Discord bot written in Kotlin, made for fun!
 
 ### Example
 - Using /chatgpt calling the bot
-- ![gif](https://i.imgur.com/T34ZsRz.gif)
+  ![gif](https://i.imgur.com/T34ZsRz.gif)
 
 - In more complicated request
   ![gif](https://i.imgur.com/LdbpBsR.gif)
