@@ -55,18 +55,14 @@ object Main {
                 if (event.commandName == "chatgpt") {
                     val input = event.getOption("message").flatMap { it.value }.map { it.asString() }.get()
 
-
                     thread {
                         val builder = StringBuilder("> Asking: **$input**\n")
                         var lastReasons = "length"
                         var maxAttempt = 0
 
                         while (true) {
-                            if (maxAttempt == 0) {
-                                event.deferReply()
-                                    .then(Mono.delay(Duration.ofSeconds(2)))
-                                    .then(event.editReply(builder.toString())).subscribe()
-                            }
+
+                            event.reply(builder.toString()).subscribe()
 
                             runCatching { //if (maxAttempt == 0) channel.type().block()
                                 service.createCompletion(CompletionRequest.builder().model("text-davinci-003")
@@ -85,7 +81,9 @@ object Main {
                                 return@thread
                             }
 
-                            if (maxAttempt != 0) {
+                            if (maxAttempt == 0) {
+                                event.editReply(builder.toString()).subscribe()
+                            } else {
                                 event.editReply(InteractionReplyEditSpec.builder().build()
                                     .withContentOrNull(builder.toString())).subscribe()
                             }
