@@ -77,7 +77,7 @@ object Main {
                                     lastReasons = it.finish_reason
                                 }
                             }.onFailure {
-                                event.editReply(it.toString()).subscribe()
+                                event.editReply(builder.toString() + "\n" + it.toString()).subscribe()
                                 return@thread
                             }
 
